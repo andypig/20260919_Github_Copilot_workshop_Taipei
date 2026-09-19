@@ -21,6 +21,8 @@ argument-hint: 'issueNumber=3'
 
 ## 3. 建立分支
 
+確認同意後,先從 `main` 建立並切換到新分支:
+
 ```
 git switch -c fix/issue-${input:issueNumber}
 ```
