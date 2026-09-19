@@ -6,6 +6,7 @@ const list = document.querySelector("#todo-list");
 const emptyMessage = document.querySelector("#empty-message");
 const remainingCount = document.querySelector("#remaining-count");
 const clearButton = document.querySelector("#clear-button");
+const clearCompletedButton = document.querySelector("#clear-completed-button");
 const themeButton = document.querySelector("#theme-button");
 const filterButtons = document.querySelectorAll(".filter-button");
 const THEME_KEY = "offline-todo-theme";
@@ -98,6 +99,8 @@ function renderTodos() {
   });
 
   const pendingCount = todos.filter((todo) => !todo.completed).length;
+  const completedCount = todos.filter((todo) => todo.completed).length;
+  clearCompletedButton.disabled = completedCount === 0;
   emptyMessage.hidden = visibleTodos.length > 0;
   if (visibleTodos.length === 0) {
     const emptyMessages = {
@@ -178,6 +181,17 @@ function clearTodos() {
   renderTodos();
 }
 
+function clearCompletedTodos() {
+  const completedCount = todos.filter((todo) => todo.completed).length;
+  if (completedCount === 0 || !confirm("確定要清除所有已完成事項嗎？")) {
+    return;
+  }
+
+  todos = todos.filter((todo) => !todo.completed);
+  saveTodos();
+  renderTodos();
+}
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const text = input.value.trim();
@@ -193,6 +207,7 @@ form.addEventListener("submit", (event) => {
 });
 
 clearButton.addEventListener("click", clearTodos);
+clearCompletedButton.addEventListener("click", clearCompletedTodos);
 
 themeButton.addEventListener("click", () => {
   const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
