@@ -1,6 +1,9 @@
 :root {
   --background: #f5f3ee;
   --card: #fffdf9;
+  --card-border: rgba(228, 231, 226, 0.8);
+  --input-background: #fff;
+  --item-background: #fff;
   --ink: #253238;
   --muted: #7d898b;
   --line: #e4e7e2;
@@ -8,6 +11,19 @@
   --accent-dark: #b95235;
   --soft-accent: #fff0e9;
   --shadow: 0 18px 45px rgba(47, 58, 56, 0.12);
+}
+
+[data-theme="dark"] {
+  --background: #1c2224;
+  --card: #273033;
+  --card-border: #3c484b;
+  --input-background: #20282a;
+  --item-background: #20282a;
+  --ink: #edf2ef;
+  --muted: #aab7b6;
+  --line: #435053;
+  --soft-accent: #49352e;
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -28,7 +44,7 @@ body {
 .todo-card {
   width: min(100%, 520px);
   padding: clamp(28px, 7vw, 46px);
-  border: 1px solid rgba(228, 231, 226, 0.8);
+  border: 1px solid var(--card-border);
   border-radius: 22px;
   background: var(--card);
   box-shadow: var(--shadow);
@@ -36,6 +52,13 @@ body {
 
 .page-header {
   margin-bottom: 28px;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .eyebrow {
@@ -51,6 +74,23 @@ h1 {
   font-size: clamp(2rem, 8vw, 2.75rem);
   line-height: 1.1;
   letter-spacing: 0;
+}
+
+.theme-button {
+  flex: 0 0 auto;
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--ink);
+  background: var(--input-background);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.theme-button:hover {
+  border-color: var(--accent);
+  color: var(--accent-dark);
 }
 
 .subtitle {
@@ -72,10 +112,35 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 10px;
   color: var(--ink);
-  background: #fff;
+  background: var(--input-background);
   font: inherit;
   outline: none;
   transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.filter-button {
+  padding: 8px 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+}
+
+.filter-button:hover,
+.filter-button.active {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+  background: var(--soft-accent);
+  font-weight: 700;
 }
 
 .todo-form input:focus {
@@ -84,6 +149,7 @@ h1 {
 }
 
 .todo-form button,
+.edit-button,
 .delete-button {
   border: 0;
   cursor: pointer;
@@ -123,7 +189,7 @@ h1 {
   padding: 10px 10px 10px 14px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: #fff;
+  background: var(--item-background);
   animation: rise-in 220ms ease both;
 }
 
@@ -142,23 +208,40 @@ h1 {
   line-height: 1.45;
 }
 
+.edit-input {
+  min-width: 0;
+  flex: 1;
+  padding: 7px 9px;
+  border: 1px solid var(--accent);
+  border-radius: 7px;
+  color: var(--ink);
+  background: var(--input-background);
+  font: inherit;
+  outline: none;
+}
+
 .todo-item.completed .todo-text {
   color: var(--muted);
   text-decoration: line-through;
 }
 
+.edit-button,
 .delete-button {
   padding: 7px 8px;
   border-radius: 7px;
   color: var(--muted);
   background: transparent;
-  font-size: 1.2rem;
   line-height: 1;
 }
 
+.edit-button:hover,
 .delete-button:hover {
   color: var(--accent-dark);
   background: var(--soft-accent);
+}
+
+.delete-button {
+  font-size: 1.2rem;
 }
 
 .empty-message {

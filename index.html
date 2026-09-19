@@ -10,7 +10,10 @@
   <main class="todo-card">
     <header class="page-header">
       <p class="eyebrow">MY DAY</p>
-      <h1>待辦清單</h1>
+      <div class="title-row">
+        <h1>待辦清單</h1>
+        <button class="theme-button" id="theme-button" type="button" aria-pressed="false"></button>
+      </div>
       <p class="subtitle">把今天想完成的事，一件一件做好。</p>
     </header>
 
@@ -19,6 +22,12 @@
       <input id="todo-input" name="todo" type="text" placeholder="接下來要完成什麼？" autocomplete="off">
       <button type="submit">新增</button>
     </form>
+
+    <nav class="filter-bar" aria-label="篩選待辦事項">
+      <button class="filter-button active" type="button" data-filter="all" aria-pressed="true">全部</button>
+      <button class="filter-button" type="button" data-filter="active" aria-pressed="false">未完成</button>
+      <button class="filter-button" type="button" data-filter="completed" aria-pressed="false">已完成</button>
+    </nav>
 
     <section aria-live="polite" aria-label="待辦事項">
       <p class="empty-message" id="empty-message">還沒有任何待辦事項,新增一個吧!</p>
