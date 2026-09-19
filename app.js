@@ -102,8 +102,8 @@ function renderTodos() {
   if (visibleTodos.length === 0) {
     const emptyMessages = {
       all: "還沒有任何待辦事項,新增一個吧!",
-      active: "目前沒有未完成的待辦事項。",
-      completed: "目前沒有已完成的待辦事項。"
+      active: "目前沒有未完成的待辦事項，其他事項可能被目前的篩選條件隱藏。",
+      completed: "目前沒有已完成的事項，待辦事項仍可在「全部」中查看。"
     };
     emptyMessage.textContent = emptyMessages[currentFilter];
   }
