@@ -9,10 +9,11 @@ const clearButton = document.querySelector("#clear-button");
 const themeButton = document.querySelector("#theme-button");
 const filterButtons = document.querySelectorAll(".filter-button");
 const THEME_KEY = "offline-todo-theme";
+const FILTER_KEY = "offline-todo-filter";
 const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
 
 let todos = loadTodos();
-let currentFilter = "all";
+let currentFilter = getInitialFilter();
 
 // 優先使用使用者手動選擇的主題，沒有選擇時才跟隨作業系統設定。
 function getInitialTheme() {
@@ -25,6 +26,13 @@ function applyTheme(theme) {
   const isDark = theme === "dark";
   themeButton.textContent = isDark ? "☀️ 淺色模式" : "🌙 深色模式";
   themeButton.setAttribute("aria-pressed", String(isDark));
+}
+
+// 只接受支援的篩選值，避免錯誤資料造成畫面狀態異常。
+function getInitialFilter() {
+  const savedFilter = localStorage.getItem(FILTER_KEY);
+  const validFilters = ["all", "active", "completed"];
+  return validFilters.includes(savedFilter) ? savedFilter : "all";
 }
 
 // 從瀏覽器儲存空間讀取待辦資料，資料損壞時回到空清單。
@@ -43,6 +51,11 @@ function saveTodos() {
 
 function renderTodos() {
   list.replaceChildren();
+  filterButtons.forEach((button) => {
+    const isSelected = button.dataset.filter === currentFilter;
+    button.classList.toggle("active", isSelected);
+    button.setAttribute("aria-pressed", String(isSelected));
+  });
 
   const visibleTodos = todos.filter((todo) => {
     if (currentFilter === "active") return !todo.completed;
@@ -190,6 +203,7 @@ themeButton.addEventListener("click", () => {
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     currentFilter = button.dataset.filter;
+    localStorage.setItem(FILTER_KEY, currentFilter);
     filterButtons.forEach((filterButton) => {
       const isSelected = filterButton === button;
       filterButton.classList.toggle("active", isSelected);
